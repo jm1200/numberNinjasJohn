@@ -20,7 +20,7 @@ interface QuestionsProps {
 const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timer, setTimer] = useState(0);
-  const [tempScore, setTempScore] = useState(0);
+  // const [tempScore] = useState(0);
   const createGame = api.game.createGame.useMutation();
 
   // const [displayAnswer, setDisplayAnswer] = useState({
@@ -113,7 +113,7 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
         setPhase(GamePhase.END_GAME);
       }, 2000);
     }
-  }, [gameData, currentIndex, setPhase, tempUserAnswers]);
+  }, [gameData, currentIndex, setPhase, tempUserAnswers, createGame]);
 
   if (!gameData.questions) {
     return <p>Loading...</p>;
@@ -219,7 +219,7 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
       >
         Next
       </button>
-      <p className="mt-4 text-2xl">Score: {tempScore}</p>
+      {/* <p className="mt-4 text-2xl">Score: {tempScore}</p> */}
       {showTimer && <p className="mt-4 text-2xl">Time: {timer}</p>}
     </div>
   );

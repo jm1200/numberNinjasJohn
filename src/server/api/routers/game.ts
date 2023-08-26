@@ -20,18 +20,6 @@ const UpdateGameInput = z.object({
   difficulty: z.string().optional(),
 });
 
-// Output types
-const GameOutput = z.object({
-  id: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-  playerName: z.string(),
-  score: z.number(),
-  time: z.number(),
-  gameMode: z.string(),
-  difficulty: z.string(),
-});
-
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();

@@ -6,10 +6,8 @@ import {
   GamePhase,
   type Operator,
 } from "../../types";
-import { InputNameForm } from "./inputNameForm";
 import { generateQuestions } from "../../utils";
 import { Input } from "./input";
-import Scoreboard from "./scoreboard";
 
 interface OptionsProps {
   playerName: string;

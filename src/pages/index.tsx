@@ -2,7 +2,6 @@ import Head from "next/head";
 import MathGame from "../components/ui/mathgame";
 import Navbar from "../components/ui/navbar";
 import { useState } from "react";
-import Scoreboard from "../components/ui/scoreboard";
 
 export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });

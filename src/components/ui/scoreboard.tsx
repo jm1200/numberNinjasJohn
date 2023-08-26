@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Table,
-  TableCaption,
   TableHeader,
   TableRow,
   TableHead,
@@ -9,7 +8,6 @@ import {
   TableCell,
 } from "./table"; // Replace with your import
 import { api } from "../../utils/api";
-import { format } from "date-fns";
 import { FaPlus, FaMinus, FaTimes, FaDivide } from "react-icons/fa";
 
 const Leaderboard = () => {

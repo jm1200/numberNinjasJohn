@@ -1,4 +1,4 @@
-import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import Countdown from "./countdown";
 import EndGame from "./endGame";
 import Options from "./options";
