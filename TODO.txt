@@ -1,0 +1,4 @@
+Left off rearranging gameData state. I just put the game state mostly in options. can reset game by resetting questions to null 
+in mathgame.tsx.
+
+gotta figure out where questions and useranswers states fits in mathgame.
