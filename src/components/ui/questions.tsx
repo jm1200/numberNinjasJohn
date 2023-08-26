@@ -90,20 +90,21 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
         gameData.timeScore +
         gameData.correctAnswersScore * gameData.difficultyMultiplier;
 
-      const {
-        playerName,
-        selectedDifficulty,
-        selectedOperator,
-        totalScore,
-        elapsedTime,
-      } = gameData;
-      createGame.mutate({
-        playerName,
-        difficulty: selectedDifficulty!,
-        gameMode: selectedOperator!,
-        score: totalScore,
-        time: elapsedTime!,
-      });
+      // const {
+      //   playerName,
+      //   selectedDifficulty,
+      //   selectedOperator,
+      //   totalScore,
+      //   elapsedTime,
+      // } = gameData;
+
+      // createGame.mutate({
+      //   playerName,
+      //   difficulty: selectedDifficulty!,
+      //   gameMode: selectedOperator!,
+      //   score: totalScore,
+      //   time: elapsedTime!,
+      // });
 
       setTimeout(() => {
         console.log(
