@@ -14,7 +14,7 @@ interface MathGameProps {
 }
 
 const MathGame = ({ playerName, setPlayerName }: MathGameProps) => {
-  const [phase, setPhase] = useState<GamePhase>(GamePhase.OPTIONS);
+  const [phase, setPhase] = useState<GamePhase>(GamePhase.HOME);
 
   // const [questions, setQuestions] = useState<QuestionsData | null>(null);
   // const [userAnswers, setUserAnswers] = useState<QuestionsData | null>(null);
