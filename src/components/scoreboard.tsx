@@ -11,7 +11,7 @@ import { api } from "../utils/api";
 import { FaPlus, FaMinus, FaTimes, FaDivide } from "react-icons/fa";
 
 const Leaderboard = () => {
-  const { data, error } = api.game.getAllTopTenScores.useQuery();
+  const { data } = api.game.getAllTopTenScores.useQuery();
 
   const returnIcon = (gameMode: string) => {
     switch (gameMode) {
