@@ -2,13 +2,10 @@ import Head from "next/head";
 import MathGame from "../components/mathgame";
 import Navbar from "../components/navbar";
 import { useState } from "react";
-import { Button } from "../components/ui/button";
-import { api } from "../utils/api";
 
 export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const [playerName, setPlayerName] = useState("");
-  const wipe = api.game.wipeTable;
 
   return (
     <>
@@ -24,7 +21,6 @@ export default function Home() {
             <MathGame playerName={playerName} setPlayerName={setPlayerName} />
           </div>
         </div>
-        <Button onClick={() => wipe.useMutation()}>TEST WIPE</Button>
       </div>
     </>
   );
