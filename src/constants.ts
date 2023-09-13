@@ -1,6 +1,6 @@
 import type { GameData, Question } from "./types";
 
-export const NUMBER_OF_QUESTIONS = 3;
+export const NUMBER_OF_QUESTIONS = 10;
 
 export const operators = [
   { value: "add", label: "Addition" },

@@ -191,7 +191,7 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
           <input
             ref={inputRef}
             disabled={inputDisabled}
-            type="numbe"
+            type="number"
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
             onKeyUp={handleKeyPress}
