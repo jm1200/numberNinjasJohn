@@ -6,8 +6,8 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "./table"; // Replace with your import
-import { api } from "../../utils/api";
+} from "./ui/table"; // Replace with your import
+import { api } from "../utils/api";
 import { FaPlus, FaMinus, FaTimes, FaDivide } from "react-icons/fa";
 
 const Leaderboard = () => {
@@ -29,20 +29,21 @@ const Leaderboard = () => {
     }
   };
 
-  console.log("scoreboard.tsx 16 data:", data, error);
-
   if (!data) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div className="rounded-lg bg-gray-200 p-2">
+    <div className="flex flex-col items-center rounded-lg bg-gray-200 p-2">
       <p className="mb-4 w-full text-center text-2xl font-bold">
         Today&apos;s Top Scores
       </p>
-      <div className="flex">
+      <div className="md:flex">
         {data.map((modeData) => (
-          <div key={modeData.gameMode} className="mb-8">
+          <div
+            key={modeData.gameMode}
+            className="mb-8 rounded-lg bg-gray-300 p-4"
+          >
             <h2 className="flex   justify-center  text-2xl">
               {returnIcon(modeData.gameMode)}
             </h2>

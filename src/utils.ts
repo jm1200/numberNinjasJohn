@@ -1,10 +1,9 @@
-import type { Difficulty, Operator, Question } from "./types";
+import { NUMBER_OF_QUESTIONS, defaultGame } from "./constants";
+import type { Difficulty, GameData, Operator, Question } from "./types";
 
 export const generateNumber = (max: number, min = 1) => {
   return Math.floor(Math.random() * max) + min;
 };
-
-export const NUMBER_OF_QUESTIONS = 3;
 
 export const operatorMap = (operator: Operator) => {
   switch (operator) {
@@ -26,7 +25,6 @@ export const generateQuestions = (
   operator: Operator,
   difficulty: Difficulty
 ): Question[] => {
-  console.log("questions.tsx 17 generate:", operator, difficulty);
   const questionCount = NUMBER_OF_QUESTIONS;
   const questions: Question[] = [] as Question[];
 
@@ -101,22 +99,39 @@ export const generateQuestions = (
   return questions;
 };
 
-export const calculateScore = (
-  correctAnswers: number,
-  totalTime: number,
-  difficulty: "easy" | "hard"
-) => {
-  const correctScore = correctAnswers * 10;
-  const difficultyFactor = difficulty === "easy" ? 1 : 2;
-  const totalTimeLimit = 2000; // 2 minutes
+// export const calculateScore = (
+//   correctAnswers: number,
+//   totalTime: number,
+//   difficulty: "easy" | "hard"
+// ) => {
+//   const correctScore = correctAnswers * 10;
+//   const difficultyFactor = difficulty === "easy" ? 1 : 2;
+//   const totalTimeLimit = 100;
 
-  const timeScore = Math.round(
-    Math.max(0, (totalTimeLimit - totalTime) / totalTimeLimit) * 100
-  );
-  const difficultyScore = correctScore * difficultyFactor;
+//   console.log("utils.ts 112 totalTime:", totalTime);
 
-  const score = correctScore + timeScore + difficultyScore;
-  console.log("endGame.tsx 48 :create a ");
+//   const timeScore = totalTime > 100 ? 0 : totalTimeLimit - totalTime;
+//   const difficultyScore = correctScore * difficultyFactor;
 
-  return { correctScore, timeScore, difficultyScore, score };
+//   const score = correctScore + timeScore + difficultyScore;
+//   console.log("endGame.tsx 48 :create a ");
+
+//   return { correctScore, timeScore, difficultyScore, score };
+// };
+
+export const createNewGame = (gameData: GameData): GameData => {
+  const {
+    selectedDifficulty,
+    playerName,
+    selectedOperator,
+    difficultyMultiplier,
+  } = gameData;
+  return {
+    ...defaultGame,
+    playerName,
+    selectedDifficulty,
+    selectedOperator,
+    difficultyMultiplier,
+    questions: generateQuestions(selectedOperator, selectedDifficulty),
+  };
 };

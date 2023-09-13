@@ -5,11 +5,12 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { operatorMap, NUMBER_OF_QUESTIONS } from "../../utils";
+import { operatorMap } from "../utils";
 import { useSpring, animated } from "react-spring";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
-import { type Question, type GameData, GamePhase } from "../../types";
-import { api } from "../../utils/api";
+import { type Question, type GameData, GamePhase } from "../types";
+import { api } from "../utils/api";
+import { NUMBER_OF_QUESTIONS } from "../constants";
 
 interface QuestionsProps {
   gameData: GameData;
@@ -20,20 +21,14 @@ interface QuestionsProps {
 const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timer, setTimer] = useState(0);
-  // const [tempScore] = useState(0);
   const createGame = api.game.createGame.useMutation();
-
-  // const [displayAnswer, setDisplayAnswer] = useState({
-  //   display: false,
-  //   color: "",
-  //   answer: 0,
-  // });
   const [showCorrect, setShowCorrect] = useState(false);
+  const [createdGame, setCreatedGame] = useState(false);
   const [showTimer, setShowTimer] = useState(true);
   const [showWrong, setShowWrong] = useState(false);
   const [userAnswer, setUserAnswer] = useState("");
-  const [tempUserAnswers, setTempUserAnswers] = useState<Question[] | null>(
-    null
+  const [tempUserAnswers, setTempUserAnswers] = useState<Question[]>(
+    [] as Question[]
   );
   const [inputDisabled, setInputDisabled] = useState(false);
 
@@ -76,45 +71,47 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
   }, []);
 
   useEffect(() => {
-    console.log(
-      "Use Effect correctAnswersScore:",
-      gameData.correctAnswersScore
-    );
-  }, [gameData.correctAnswersScore]);
-
-  useEffect(() => {
     if (currentIndex === NUMBER_OF_QUESTIONS) {
       setShowTimer(false);
-      gameData.timeScore = NUMBER_OF_QUESTIONS * 5 - gameData.elapsedTime!;
+      const timeWeight = NUMBER_OF_QUESTIONS * 5;
+      gameData.timeScore =
+        gameData.elapsedTime > timeWeight
+          ? 0
+          : timeWeight - gameData.elapsedTime;
       gameData.totalScore =
         gameData.timeScore +
         gameData.correctAnswersScore * gameData.difficultyMultiplier;
 
-      // const {
-      //   playerName,
-      //   selectedDifficulty,
-      //   selectedOperator,
-      //   totalScore,
-      //   elapsedTime,
-      // } = gameData;
-
-      // createGame.mutate({
-      //   playerName,
-      //   difficulty: selectedDifficulty!,
-      //   gameMode: selectedOperator!,
-      //   score: totalScore,
-      //   time: elapsedTime!,
-      // });
+      const {
+        selectedDifficulty,
+        selectedOperator,
+        totalScore,
+        playerName,
+        elapsedTime,
+      } = gameData;
+      if (!createdGame) {
+        createGame.mutate({
+          difficulty: selectedDifficulty,
+          score: totalScore,
+          gameMode: selectedOperator as string,
+          playerName: playerName,
+          time: elapsedTime,
+        });
+        setCreatedGame(true);
+      }
 
       setTimeout(() => {
-        console.log(
-          "questions.tsx 90 ending game now: here is the gameData",
-          gameData
-        );
         setPhase(GamePhase.END_GAME);
       }, 2000);
     }
-  }, [gameData, currentIndex, setPhase, tempUserAnswers, createGame]);
+  }, [
+    gameData,
+    currentIndex,
+    setPhase,
+    tempUserAnswers,
+    createGame,
+    createdGame,
+  ]);
 
   if (!gameData.questions) {
     return <p>Loading...</p>;
@@ -123,15 +120,14 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
   const handleNextQuestion = () => {
     setInputDisabled(true);
 
-    const oldQuestions: Question[] = tempUserAnswers!;
+    const oldQuestions: Question[] = tempUserAnswers;
     oldQuestions[currentIndex]!.userAnswer = parseInt(userAnswer);
     setTempUserAnswers(oldQuestions);
 
     const currentScore = gameData.correctAnswersScore;
 
     const correct =
-      gameData.questions![currentIndex]!.correctAnswer.toString() ===
-      userAnswer;
+      gameData.questions[currentIndex]!.correctAnswer.toString() === userAnswer;
 
     const newScore = correct ? currentScore + 10 : currentScore;
 
@@ -153,14 +149,8 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
       setShowCorrect(false);
       setShowWrong(false);
     }, 1000);
-
     setUserAnswer("");
-    // setDisplayAnswer({ display: false, color: "", answer: 0 });
-
-    // if (currentIndex < NUMBER_OF_QUESTIONS - 1) {
-
     setCurrentIndex(currentIndex + 1);
-    // }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -175,42 +165,47 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
   }
 
   if (currentIndex === NUMBER_OF_QUESTIONS) {
-    return <p className="text-2xl">Game over!</p>;
+    return (
+      <div className="">
+        <p className=" w-full text-center text-6xl">Game over!</p>;
+      </div>
+    );
   }
 
-  // console.log("questions.tsx 162 displayAnswer:", displayAnswer);
-
   return (
-    <div>
-      <h2 className="mb-4 text-4xl">Question {currentIndex + 1}</h2>
-      <div className="mb-4 flex items-center">
-        <p className="mr-4 text-5xl font-bold">{questions[currentIndex]!.x}</p>
-        <p className="mr-4 text-5xl font-bold">
-          {operatorMap(selectedOperator)}
-        </p>
-        <p className="mr-4 text-5xl font-bold">{questions[currentIndex]!.y}</p>
-        <p className="mr-4 text-5xl font-bold">=</p>
-        <input
-          ref={inputRef}
-          disabled={inputDisabled}
-          type="text"
-          value={userAnswer}
-          onChange={(e) => setUserAnswer(e.target.value)}
-          onKeyUp={handleKeyPress}
-          className="h-24 w-24 rounded-lg bg-gray-200 px-4 py-2 text-3xl"
-        />
-        <div className="ml-16 flex items-center">
-          <animated.div style={correctAnimation}>
-            <FaThumbsUp className="text-2xl text-green-600" />
-          </animated.div>
-          <animated.div style={wrongAnimation}>
-            <FaThumbsDown className="text-2xl text-red-600" />
-          </animated.div>
+    <div className="flex h-screen w-full flex-col items-center justify-center md:h-auto ">
+      {showTimer && <p className="my-4 text-2xl">Time: {timer}</p>}
+      <div className="flex flex-col items-center justify-center md:flex-row">
+        <h2 className="mb-4 text-5xl md:mr-8 ">Question {currentIndex + 1}:</h2>
+        <div className="mb-4 flex items-center justify-center ">
+          <p className="mr-4 text-5xl font-bold">
+            {questions[currentIndex]!.x}
+          </p>
+          <p className="mr-4 text-5xl font-bold">
+            {operatorMap(selectedOperator)}
+          </p>
+          <p className="mr-4 text-5xl font-bold">
+            {questions[currentIndex]!.y}
+          </p>
+          <p className="mr-4 text-5xl font-bold">=</p>
+          <input
+            ref={inputRef}
+            disabled={inputDisabled}
+            type="text"
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            onKeyUp={handleKeyPress}
+            className="h-24 w-24 rounded-lg bg-gray-200 px-4 py-2 text-3xl"
+          />
+          <div className="ml-16 flex items-center">
+            <animated.div style={correctAnimation}>
+              <FaThumbsUp className="text-2xl text-green-600" />
+            </animated.div>
+            <animated.div style={wrongAnimation}>
+              <FaThumbsDown className="text-2xl text-red-600" />
+            </animated.div>
+          </div>
         </div>
-
-        {/* {displayAnswer.display && (
-          <p className={`${displayAnswer.color}`}>{displayAnswer.answer}</p>
-        )} */}
       </div>
 
       <button
@@ -220,8 +215,6 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
       >
         Next
       </button>
-      {/* <p className="mt-4 text-2xl">Score: {tempScore}</p> */}
-      {showTimer && <p className="mt-4 text-2xl">Time: {timer}</p>}
     </div>
   );
 };

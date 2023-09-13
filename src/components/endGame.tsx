@@ -1,18 +1,15 @@
-import { type GameData } from "../../types";
-import { operatorMap } from "../../utils";
-import { Button } from "./button";
+import { type GameData } from "../types";
+import { operatorMap } from "../utils";
+import { Button } from "./ui/button";
 import Scoreboard from "./scoreboard";
 
 interface EndGameProps {
-  onRestart: () => void;
+  onTryAgain: () => void;
+  onNewGame: () => void;
   gameData: GameData;
 }
 
-const EndGame = ({ onRestart, gameData }: EndGameProps) => {
-  // Placeholder score calculation based on time, number of questions answered correctly, and difficulty
-
-  // let correctAnswersNum = 0;
-
+const EndGame = ({ onTryAgain, gameData, onNewGame }: EndGameProps) => {
   const {
     questions,
     selectedOperator,
@@ -22,14 +19,6 @@ const EndGame = ({ onRestart, gameData }: EndGameProps) => {
     totalScore,
     difficultyMultiplier,
   } = gameData;
-
-  // for (const question of questions) {
-  //   const c = question.correctAnswer;
-  //   const u = question.userAnswer;
-  //   if (c === u) {
-  //     correctAnswersNum++;
-  //   }
-  // }
 
   if (!questions) {
     return <div>Loading...</div>;
@@ -67,10 +56,13 @@ const EndGame = ({ onRestart, gameData }: EndGameProps) => {
         </div>
       </div>
       <div className="w-full text-center">
-        <Button className="mr-2" onClick={onRestart}>
-          Restart Game
+        <Button className="mr-2" onClick={onTryAgain}>
+          Try Again
         </Button>
-        <Button onClick={() => window.location.reload()}>New Game</Button>
+        <Button className="mr-2" onClick={onNewGame}>
+          New Game
+        </Button>
+        <Button onClick={() => window.location.reload()}>Change Player</Button>
       </div>
       <div className="mt-4">
         <Scoreboard />

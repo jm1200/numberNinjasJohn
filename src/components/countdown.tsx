@@ -1,12 +1,11 @@
 import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
-import { GamePhase } from "../../types";
+import { GamePhase } from "../types";
 
 interface CountDownProps {
   setPhase: Dispatch<SetStateAction<GamePhase>>;
 }
 
 const Countdown = ({ setPhase }: CountDownProps) => {
-  console.log("countdown.tsx 4 countdown:");
   const [count, setCount] = useState(3);
 
   useEffect(() => {
@@ -23,7 +22,11 @@ const Countdown = ({ setPhase }: CountDownProps) => {
     };
   }, [count, setPhase]);
 
-  return <h2>{count > 0 ? count : "Go!"}</h2>;
+  return (
+    <div className="flex h-screen w-full items-center justify-center ">
+      <h2 className="text-9xl">{count > 0 ? count : "Go!"}</h2>
+    </div>
+  );
 };
 
 export default Countdown;

@@ -5,16 +5,16 @@ export interface Question {
   userAnswer: number | null;
 }
 
-export type Operator = "add" | "sub" | "mul" | "div" | null;
+export type Operator = "add" | "sub" | "mul" | "div";
 export type Difficulty = "easy" | "hard";
 
 export interface GameData {
   datePlayed: Date;
-  selectedOperator: Operator | null;
-  selectedDifficulty: Difficulty | null;
+  selectedOperator: Operator;
+  selectedDifficulty: Difficulty;
   playerName: string;
-  questions: Question[] | null;
-  elapsedTime: number | null;
+  questions: Question[];
+  elapsedTime: number;
   correctAnswersScore: number;
   timeScore: number;
   difficultyMultiplier: number;
