@@ -97,4 +97,8 @@ export const gameRouter = createTRPCRouter({
 
     return Promise.all(promises);
   }),
+
+  wipeTable: publicProcedure.mutation(async () => {
+    await prisma.game.deleteMany();
+  }),
 });
