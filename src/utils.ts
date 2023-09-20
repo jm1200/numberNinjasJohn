@@ -39,8 +39,8 @@ export const generateQuestions = (
         y = generateNumber(5);
         correctAnswer = x + y;
       } else {
-        x = generateNumber(10);
-        y = generateNumber(10);
+        x = generateNumber(7, 3);
+        y = generateNumber(6, 3);
         correctAnswer = x + y;
       }
     } else if (operator === "sub") {
@@ -52,10 +52,10 @@ export const generateQuestions = (
         }
         correctAnswer = x - y;
       } else {
-        x = generateNumber(20, 10);
+        x = generateNumber(10, 10);
         y = 20;
         while (y > x) {
-          y = generateNumber(20);
+          y = generateNumber(6, 3);
         }
         correctAnswer = x - y;
       }
@@ -65,8 +65,8 @@ export const generateQuestions = (
         y = generateNumber(5);
         correctAnswer = x * y;
       } else {
-        x = generateNumber(10);
-        y = generateNumber(10);
+        x = generateNumber(7, 3);
+        y = generateNumber(7, 3);
         correctAnswer = x * y;
       }
     } else if (operator === "div") {
@@ -76,8 +76,8 @@ export const generateQuestions = (
         x = z * y;
         correctAnswer = z;
       } else {
-        z = generateNumber(10);
-        y = generateNumber(10);
+        z = generateNumber(7, 3);
+        y = generateNumber(7, 3);
         x = z * y;
         correctAnswer = z;
       }

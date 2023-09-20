@@ -73,7 +73,7 @@ const Questions = ({ gameData, setGameData, setPhase }: QuestionsProps) => {
   useEffect(() => {
     if (currentIndex === NUMBER_OF_QUESTIONS) {
       setShowTimer(false);
-      const timeWeight = NUMBER_OF_QUESTIONS * 5;
+      const timeWeight = NUMBER_OF_QUESTIONS * 10;
       gameData.timeScore =
         gameData.elapsedTime > timeWeight
           ? 0
