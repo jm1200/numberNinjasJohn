@@ -39,7 +39,7 @@ export const generateQuestions = (
         y = generateNumber(5);
         correctAnswer = x + y;
       } else {
-        x = generateNumber(7, 3);
+        x = generateNumber(5, 5);
         y = generateNumber(6, 3);
         correctAnswer = x + y;
       }
